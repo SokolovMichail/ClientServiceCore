@@ -10,9 +10,7 @@ import org.springframework.stereotype.Component
 
 private val logger = KotlinLogging.logger {}
 @Component
-class CoreServerSideSender(@Autowired
-                           val repo: ClientRepository,
-                           @Autowired
+class CoreServerSideSender(val repo: ClientRepository,
                            private val template: RabbitTemplate)
 {
     @Scheduled(fixedDelay = 60000, initialDelay = 10000)
