@@ -10,7 +10,7 @@ enum class Processing {
     AWAIT_PROCESSING, PROCESSING,PROCESSING_COMPLETE
 }
 
-@Entity(name = "clients_table") // This tells Hibernate to make a table out of this class
+@Entity(name = "clients_table")
 //@SequenceGenerator(surname="seq", initialValue=1, allocationSize=1000000)
 @Access(AccessType.FIELD)
 class Client(
@@ -26,12 +26,7 @@ class Client(
         var account: String = ERR_NO_ACC_DET,
         @field:Enumerated(EnumType.STRING)
         var status:Processing = Processing.AWAIT_PROCESSING)
-//stateofprocessing variations
-//0 - Not yet processed
-//1 - Processing started, awaiting response
-//2 - Processing finished
 {
-
 
     fun transformToClientXML(): ClientXML {
         var C = ClientXML()
@@ -41,9 +36,4 @@ class Client(
         C.dr = this.dr
         return C
     }
-
-    fun niceview(): String {
-        return this.name + " " + this.surname
-    }
-
 }
