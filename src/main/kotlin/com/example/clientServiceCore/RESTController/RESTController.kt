@@ -3,14 +3,12 @@ package com.example.clientServiceCore.RESTController
 import com.example.clientServiceCore.ClientModel.Client
 import com.example.clientServiceCore.ClientRepository.ClientRepository
 import mu.KotlinLogging
-import org.slf4j.LoggerFactory.getLogger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import java.text.SimpleDateFormat
 
 internal class ClientNotFoundException(id: Int?) : RuntimeException("Could not find employee " + id!!)
+
 //A service class to implement remote deletion
-//I have not found an option to do it another way...
 class Id_Getter(var id:String="")
 {
 }
@@ -25,8 +23,7 @@ class RESTClientController(
     @GetMapping("/listall")
     fun getAllClients(): List<Client> {
         logger.info("Requested all clients")
-        var res = repo.findAll()
-        return res
+        return repo.findAll()
     }
     @PostMapping("/add")
     fun addSingleClient(@RequestBody client: Client)
@@ -40,8 +37,6 @@ class RESTClientController(
             logger.error(e.message)
             throw e
         }
-
-        //return "Ok"
     }
 
     @GetMapping("/{id}")
@@ -54,9 +49,8 @@ class RESTClientController(
     @PostMapping("/del")
     fun delSingleClient(@RequestBody idg:Id_Getter){
         logger.info("Attempted Deletion")
-        var p = idg.id.toInt()
+        val p = idg.id.toInt()
         repo.deleteById(p)
-       // return "Attempted deletion"
     }
 
 }

@@ -7,7 +7,6 @@ import java.util.*
 
 interface ClientRepository:JpaRepository<Client,Int>
 {
-    fun findClientsByAccountEquals(acc:String):Optional<List<Client>>
     fun findClientBySurname(name:String):Optional<Client>
     fun findClientsByStatus(sop:Processing):Optional<List<Client>>
 }

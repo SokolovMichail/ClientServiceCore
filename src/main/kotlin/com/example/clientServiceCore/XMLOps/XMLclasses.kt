@@ -66,12 +66,6 @@ class ClientXML() {
                         dr = this.dr
         )
     }
-
-    /*  public fun FormSqlInsertQuery(table: String): String {
-          return """INSERT INTO ${table} (surname,surname,second_name,birth_date) VALUES \
-           ('${fio.surname}','${fio.surname}','${fio.second_name}','${dr.date}')"""
-
-      }*/
 }
 
 
@@ -84,18 +78,3 @@ class Clients() {
 
 }
 
-
-fun xmlToClients(file_to_parse: String): MutableList<ClientXML> {
-    var inFile = FileInputStream(file_to_parse)
-    try {
-        val jaxbContext = JAXBContext.newInstance(Clients::class.java)
-        val unmarshaller = jaxbContext.createUnmarshaller()
-        var Clist: MutableList<ClientXML> = mutableListOf<ClientXML>()
-        Clist = (unmarshaller.unmarshal(inFile) as Clients).clients_list
-        return Clist
-    }
-    finally {
-        inFile.close()
-    }
-
-}

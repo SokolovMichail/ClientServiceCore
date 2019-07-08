@@ -11,12 +11,10 @@ enum class Processing {
 }
 
 @Entity(name = "clients_table")
-//@SequenceGenerator(surname="seq", initialValue=1, allocationSize=1000000)
 @Access(AccessType.FIELD)
 class Client(
 
         @Id
-        //@GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq")
         @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Int? = null,
         var surname: String? = "Pass",

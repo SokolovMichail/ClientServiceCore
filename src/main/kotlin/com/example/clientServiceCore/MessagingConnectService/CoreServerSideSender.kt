@@ -4,7 +4,6 @@ import com.example.clientServiceCore.ClientModel.Processing
 import com.example.clientServiceCore.ClientRepository.ClientRepository
 import mu.KotlinLogging
 import org.springframework.scheduling.annotation.Scheduled
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.stereotype.Component
 
