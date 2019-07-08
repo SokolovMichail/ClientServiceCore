@@ -31,7 +31,6 @@ class RESTClientController(
     @PostMapping("/add")
     fun addSingleClient(@RequestBody client: Client)
     {
-        println(client.dr)
         try {
             repo.save(client)
             logger.info("Saved a new client")

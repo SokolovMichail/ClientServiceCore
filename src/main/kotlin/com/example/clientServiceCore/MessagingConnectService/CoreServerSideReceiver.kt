@@ -29,8 +29,7 @@ class CoreServerSideReceiver(@Autowired val repo: ClientRepository) {
                 client.status = Processing.PROCESSING_COMPLETE
                 repo.save(client)
                 logger.info {
-                    "Successfully saved new account setting to client" +
-                            " with id ${client.id}"
+                    "Successfully saved new account setting to client with id ${client.id}"
                 }
             } else {
                 logger.error {"Account information conflict"}
