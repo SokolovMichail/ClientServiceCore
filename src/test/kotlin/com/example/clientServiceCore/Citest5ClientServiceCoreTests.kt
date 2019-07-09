@@ -12,5 +12,4 @@ class Citest5ClientServiceCoreTests {
     @Test
     fun contextLoads() {
     }
-
 }

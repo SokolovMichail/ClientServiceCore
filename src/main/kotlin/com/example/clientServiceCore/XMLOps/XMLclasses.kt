@@ -42,13 +42,13 @@ class FIO() {
     @XmlAttribute(name = "отчество")
     var second_name: String = "Pass"
 
+    //Конструктор для теста
     constructor(surname:String,name:String,second_name:String ):this()
     {
         this.name = name
         this.second_name = second_name
         this.surname = surname
     }
-
 }
 
 
@@ -63,13 +63,13 @@ class ClientXML() {
 
     fun transformToClient():Client
     {
-        return Client(surname = this.fio?.surname,
-                        name = this.fio?.name,
-                        secondName = this.fio?.second_name,
+        return Client(surname = this.fio.surname,
+                        name = this.fio.name,
+                        secondName = this.fio.second_name,
                         dr = this.dr
         )
     }
-
+    //Конструктор
     constructor(fio:FIO,dr:Date):this()
     {
         this.fio = fio
