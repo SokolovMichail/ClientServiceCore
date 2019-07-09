@@ -14,19 +14,18 @@ import javax.xml.bind.annotation.adapters.XmlAdapter
 import java.util.Date;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter
 
+var DateParse = SimpleDateFormat("dd-MM-yyyy");
 //Service adapter to read data from xml
 class DateAdapter : XmlAdapter<String, Date>() {
 
     private val dateFormat = SimpleDateFormat("dd-MM-yyyy")
 
-    @Throws(Exception::class)
     override fun marshal(v: Date): String {
         synchronized(dateFormat) {
             return dateFormat.format(v)
         }
     }
 
-    @Throws(Exception::class)
     override fun unmarshal(v: String): Date {
         synchronized(dateFormat) {
             return dateFormat.parse(v)
@@ -38,11 +37,11 @@ class DateAdapter : XmlAdapter<String, Date>() {
 @XmlRootElement(name = "ФИО")
 @XmlAccessorType(XmlAccessType.FIELD)
 class FIO(
-        @get:XmlAttribute(name = "фамилия")
+        @field:XmlAttribute(name = "фамилия")
         val surname: String? = null,
-        @get:XmlAttribute(name = "имя")
+        @field:XmlAttribute(name = "имя")
         val name: String? = null,
-        @get:XmlAttribute(name = "отчество")
+        @field:XmlAttribute(name = "отчество")
         val secondName: String? = null
 )
 
@@ -50,12 +49,15 @@ class FIO(
 @XmlRootElement(name = "Клиент")
 @XmlAccessorType(XmlAccessType.FIELD)
 class ClientXML(
-        @XmlElement(name = "ФИО")
+        @field:XmlElement(name = "ФИО")
         val fio: FIO? = FIO(),
-        @XmlElement(name = "датаРождения", required = true)
-        @XmlJavaTypeAdapter(DateAdapter::class)
-        val dr: Date? = Date()
-) {
+        @field:XmlElement(name = "датаРождения")
+        val dr_dirty: String?=null) {
+    val dr:Date
+    init {
+        dr = DateParse.parse(dr_dirty)
+    }
+
     fun transformToClient(): Client {
         val tmpSurname: String
         val tmpName: String
@@ -70,7 +72,7 @@ class ClientXML(
             tmpName = "Pass"
             tmpSecondName = "Pass"
         }
-        tmpDr = if (this.dr != null) this.dr else Date()
+        tmpDr = if ((this.dr) as Date != null) (this.dr) as Date else Date()
         return Client(surname = tmpSurname,
                 name = tmpName,
                 secondName = tmpSecondName,
