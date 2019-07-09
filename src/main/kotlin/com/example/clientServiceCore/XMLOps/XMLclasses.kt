@@ -51,8 +51,8 @@ class FIO(
 class ClientXML(
         @field:XmlElement(name = "ФИО")
         val fio: FIO? = FIO(),
-        @field:XmlElement(name = "датаРождения")
-        val dr_dirty: String?=null) {
+        @field:XmlElement(name = "dr_dirty")
+        var dr_dirty: String?=null) {
     val dr:Date
     init {
         dr = DateParse.parse(dr_dirty)
