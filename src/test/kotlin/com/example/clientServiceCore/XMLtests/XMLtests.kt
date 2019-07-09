@@ -17,9 +17,9 @@ class XMLtests
     fun compareClientsXML(expectedClient:ClientXML,client: ClientXML)
     {
         assertEquals(client.dr,expectedClient.dr)
-        assertEquals(client.fio.name,expectedClient.fio.name)
-        assertEquals(client.fio.surname,expectedClient.fio.surname)
-        assertEquals(client.fio.second_name,expectedClient.fio.second_name)
+        assertEquals(client.fio?.name,expectedClient.fio?.name)
+        assertEquals(client.fio?.surname,expectedClient.fio?.surname)
+        assertEquals(client.fio?.secondName,expectedClient.fio?.secondName)
     }
 
     @Test

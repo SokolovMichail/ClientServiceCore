@@ -1,7 +1,9 @@
 package com.example.clientServiceCore.XMLOps
+
 //TODO Remove all auxillary constructors and convert everything to nullable
 //All the auxillary constructors are used in tests only!
 import com.example.clientServiceCore.ClientModel.Client
+import com.sun.xml.internal.ws.api.ha.StickyFeature
 import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
 import javax.xml.bind.annotation.XmlElement
@@ -35,54 +37,52 @@ class DateAdapter : XmlAdapter<String, Date>() {
 
 @XmlRootElement(name = "ФИО")
 @XmlAccessorType(XmlAccessType.FIELD)
-class FIO() {
-    @XmlAttribute(name = "фамилия")
-    var surname: String = "Pass"
-    @XmlAttribute(name = "имя")
-    var name: String = "Pass"
-    @XmlAttribute(name = "отчество")
-    var second_name: String = "Pass"
-
-    //Конструктор для теста
-    constructor(surname:String,name:String,second_name:String ):this()
-    {
-        this.name = name
-        this.second_name = second_name
-        this.surname = surname
-    }
-}
+class FIO(
+        @get:XmlAttribute(name = "фамилия")
+        val surname: String? = null,
+        @get:XmlAttribute(name = "имя")
+        val name: String? = null,
+        @get:XmlAttribute(name = "отчество")
+        val secondName: String? = null
+)
 
 
 @XmlRootElement(name = "Клиент")
 @XmlAccessorType(XmlAccessType.FIELD)
-class ClientXML() {
-    @XmlElement(name = "ФИО")
-    var fio: FIO = FIO()
-    @XmlElement(name = "датаРождения",required = true)
-    @XmlJavaTypeAdapter(DateAdapter::class)
-    var dr:Date=Date()
-
-    fun transformToClient():Client
-    {
-        return Client(surname = this.fio.surname,
-                        name = this.fio.name,
-                        secondName = this.fio.second_name,
-                        dr = this.dr
+class ClientXML(
+        @XmlElement(name = "ФИО")
+        val fio: FIO? = FIO(),
+        @XmlElement(name = "датаРождения", required = true)
+        @XmlJavaTypeAdapter(DateAdapter::class)
+        val dr: Date? = Date()
+) {
+    fun transformToClient(): Client {
+        val tmpSurname: String
+        val tmpName: String
+        val tmpSecondName: String
+        val tmpDr: Date
+        if (this.fio != null) {
+            tmpSurname = if ((this.fio).surname != null) (this.fio).surname.toString() else "Pass"
+            tmpName = if ((this.fio).name != null) ((this.fio) as FIO).name.toString() else "Pass"
+            tmpSecondName = if ((this.fio).secondName != null) (this.fio).secondName else "Pass"
+        } else {
+            tmpSurname = "Pass"
+            tmpName = "Pass"
+            tmpSecondName = "Pass"
+        }
+        tmpDr = if (this.dr != null) this.dr else Date()
+        return Client(surname = tmpSurname,
+                name = tmpName,
+                secondName = tmpSecondName,
+                dr = tmpDr
         )
     }
-    //Конструктор
-    constructor(fio:FIO,dr:Date):this()
-    {
-        this.fio = fio
-        this.dr = dr
-    }
 }
-
 
 @XmlRootElement(name = "Клиенты")
 @XmlAccessorType(XmlAccessType.FIELD)
 class Clients() {
-    @XmlElement(name="Клиент")
+    @XmlElement(name = "Клиент")
     var clients_list: MutableList<ClientXML> = mutableListOf<ClientXML>()
 
 
