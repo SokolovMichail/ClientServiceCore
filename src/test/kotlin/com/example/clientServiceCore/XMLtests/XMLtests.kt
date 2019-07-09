@@ -23,7 +23,7 @@ class XMLtests
     }
 
     @Test
-    fun assertOKUnmarshallingSingle()
+    fun `assertOKUnmarshallingSingle`()
     {
         val okFilePath = "D:\\Центр-Инвест\\Для Тестирования\\testOK.xml"
         val result = xmlToClients(okFilePath)
