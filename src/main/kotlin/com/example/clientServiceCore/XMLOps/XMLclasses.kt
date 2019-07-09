@@ -39,11 +39,11 @@ class DateAdapter : XmlAdapter<String, Date>() {
 @XmlAccessorType(XmlAccessType.FIELD)
 class FIO() {
     @XmlAttribute(name = "фамилия")
-    var surname: String? = "Pass"
+    var surname: String = "Pass"
     @XmlAttribute(name = "имя")
-    var name: String? = "Pass"
+    var name: String = "Pass"
     @XmlAttribute(name = "отчество")
-    var second_name: String? = "Pass"
+    var second_name: String = "Pass"
 
     constructor(surname:String,name:String,second_name:String ):this()
     {
@@ -59,10 +59,10 @@ class FIO() {
 @XmlAccessorType(XmlAccessType.FIELD)
 class ClientXML() {
     @XmlElement(name = "ФИО")
-    var fio: FIO? = FIO()
+    var fio: FIO = FIO()
     @XmlElement(name = "датаРождения",required = true)
     @XmlJavaTypeAdapter(DateAdapter::class)
-    var dr:Date?=Date()
+    var dr:Date=Date()
 
     fun transformToClient():Client
     {
