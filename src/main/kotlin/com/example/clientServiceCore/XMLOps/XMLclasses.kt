@@ -34,56 +34,42 @@ class DateAdapter : XmlAdapter<String, Date>() {
 
 @XmlRootElement(name = "ФИО")
 @XmlAccessorType(XmlAccessType.FIELD)
-class FIO() {
-    @XmlAttribute(name = "фамилия")
-    var surname: String = "Pass"
-    @XmlAttribute(name = "имя")
-    var name: String = "Pass"
-    @XmlAttribute(name = "отчество")
-    var second_name: String = "Pass"
+data class FIO(
+    @get:XmlAttribute(name = "фамилия")
+    var surname: String = "Pass",
+    @get:XmlAttribute(name = "имя")
+    var name: String = "Pass",
+    @get:XmlAttribute(name = "отчество")
+    var second_name: String = "Pass")
+{
 
-    //Конструктор для теста
-    constructor(surname:String,name:String,second_name:String ):this()
-    {
-        this.name = name
-        this.second_name = second_name
-        this.surname = surname
-    }
 }
 
 
 @XmlRootElement(name = "Клиент")
 @XmlAccessorType(XmlAccessType.FIELD)
-class ClientXML() {
-    @XmlElement(name = "ФИО")
-    var fio: FIO = FIO()
-    @XmlElement(name = "датаРождения",required = true)
+data class ClientXML(
+    @get:XmlElement(name = "ФИО")
+    var fio: FIO = FIO(),
+    @get:XmlElement(name = "датаРождения",required = true)
     @XmlJavaTypeAdapter(DateAdapter::class)
-    var dr:Date=Date()
-
-    fun transformToClient():Client
-    {
+    var dr:Date=Date())
+{
+    fun transformToClient():Client {
         return Client(surname = this.fio.surname,
-                        name = this.fio.name,
-                        secondName = this.fio.second_name,
-                        dr = this.dr
+                name = this.fio.name,
+                secondName = this.fio.second_name,
+                dr = this.dr
         )
-    }
-    //Конструктор
-    constructor(fio:FIO,dr:Date):this()
-    {
-        this.fio = fio
-        this.dr = dr
     }
 }
 
 
 @XmlRootElement(name = "Клиенты")
 @XmlAccessorType(XmlAccessType.FIELD)
-class Clients() {
+class Clients(
     @XmlElement(name="Клиент")
     var clients_list: MutableList<ClientXML> = mutableListOf<ClientXML>()
+)
 
-
-}
 
