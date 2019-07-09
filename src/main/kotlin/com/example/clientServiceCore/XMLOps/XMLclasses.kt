@@ -1,9 +1,6 @@
 package com.example.clientServiceCore.XMLOps
 
 import com.example.clientServiceCore.ClientModel.Client
-import java.io.File
-import java.io.FileInputStream
-import javax.xml.bind.JAXBContext
 import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
 import javax.xml.bind.annotation.XmlElement
@@ -68,7 +65,7 @@ class ClientXML() {
     {
         return Client(surname = this.fio?.surname,
                         name = this.fio?.name,
-                        second_name = this.fio?.second_name,
+                        secondName = this.fio?.second_name,
                         dr = this.dr
         )
     }
