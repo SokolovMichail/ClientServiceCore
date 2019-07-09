@@ -19,7 +19,7 @@ class CoreServerSideReceiver(@Autowired val repo: ClientRepository) {
 
     @RabbitHandler
     fun receive(inp: String) {
-        var received = gson.fromJson<JSONMessage>(inp, JSONMessage::class.java)
+        var received = gson.fromJson<AccountMessage>(inp, AccountMessage::class.java)
         logger.info { "Received a message ${inp}" }
         val clientFoundBySurname = repo.findClientBySurname(received.surname)
         if (clientFoundBySurname.isPresent) {
