@@ -1,10 +1,13 @@
 package com.example.clientServiceCore.XMLtests
 
 import com.example.clientServiceCore.XMLOps.ClientXML
+import com.example.clientServiceCore.XMLOps.Clients
 import com.example.clientServiceCore.XMLOps.FIO
 import com.example.clientServiceCore.XMLOps.xmlToClients
 import org.junit.Test
+import java.io.StringWriter
 import java.text.SimpleDateFormat
+import javax.xml.bind.JAXBContext
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 

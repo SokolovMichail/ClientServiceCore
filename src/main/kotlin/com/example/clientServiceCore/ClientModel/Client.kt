@@ -26,12 +26,12 @@ class Client(
         var status:Processing = Processing.AWAIT_PROCESSING)
 {
 
-    fun transformToClientXML(): ClientXML {
+   /* fun transformToClientXML(): ClientXML {
         var C = ClientXML()
         C.fio.name = this.name
         C.fio.surname = this.surname
-        C.fio.second_name = this.secondName
+        C.fio.secondName = this.secondName
         C.dr = this.dr
         return C
-    }
+    }*/
 }
