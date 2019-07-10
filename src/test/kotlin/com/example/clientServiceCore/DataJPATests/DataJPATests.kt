@@ -31,21 +31,26 @@ var DateParse = SimpleDateFormat("dd-MM-yyyy");
 class ClientRepositoryIntegrationTest {
 
     @Autowired
-    lateinit var repo:ClientRepository
+    lateinit var repo: ClientRepository
 
     @Test
-    fun findEmployeeByid() {
-        val expectedClient =   Client(3,"ГРОЗНЫЙ","ИВАН","ВАСИЛЬЕВИЧ",
-                DateParse.parse("2119-06-13"),"ERR_NO_ACC_REP",Processing.PROCESSING_COMPLETE)
-        val client = repo?.findById(3)?.get()
-        assertEquals(expectedClient.id,client?.id)
-        assertEquals(expectedClient.name,client?.name)
-        assertEquals(expectedClient.surname,client?.surname)
-        assertEquals(expectedClient.secondName,client?.secondName)
-        assertEquals(expectedClient.account,client?.account)
-        assertEquals(expectedClient.status,client?.status)
+    fun assertFindExistingEmployeeByid() {
+        val expectedClient = Client(3, "ГРОЗНЫЙ", "ИВАН", "ВАСИЛЬЕВИЧ",
+                DateParse.parse("2119-06-13"), "ERR_NO_ACC_REP", Processing.PROCESSING_COMPLETE)
+        val client = repo.findById(3).get()
+        assertEquals(expectedClient.id, client.id)
+        assertEquals(expectedClient.name, client.name)
+        assertEquals(expectedClient.surname, client.surname)
+        assertEquals(expectedClient.secondName, client.secondName)
+        assertEquals(expectedClient.account, client.account)
+        assertEquals(expectedClient.status, client.status)
     }
 
+    @Test
+    fun assertFindNonExistentEmployeeByid() {
+        assert(!repo.findById(443).isPresent)
+
+    }
 }
 
 

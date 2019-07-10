@@ -12,9 +12,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 
@@ -23,17 +25,31 @@ val clientRepository:ClientRepository?=null
 
 @RunWith(SpringRunner::class)
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
+@AutoConfigureDataJpa
 @WebMvcTest
 class RESTControllerIntegrationTest {
 
     @Autowired
+    lateinit var repo:ClientRepository
+
+    @Autowired
     private val mockMvc: MockMvc? = null
+
+
 
     @Test
     @Throws(Exception::class)
-    fun givenEmployees_whenGetEmployees_thenReturnJsonArray() {
-        this.mockMvc?.perform(get("/greeting"))?.andDo(print())?.andExpect(status().isOk())
-                ?.andExpect(content().string(containsString("Hello Mock")));
+    fun getFirstPage() {
+        this.mockMvc?.perform(get("/"))?.andDo(print())?.andExpect(status().isOk())
+                //?.andExpect(content().string(containsString("Hello Mock")));
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun getClient() {
+        this.mockMvc?.perform(get("/clients/3"))?.andDo(print())?.andExpect(status().isOk())
+        //?.andExpect(content().string(containsString("Hello Mock")));
     }
 
     // write test cases here
