@@ -16,7 +16,7 @@ class Id_Getter(var id:String="")
 @RestController
 @RequestMapping("/clients")
 class RESTClientController(
-        @Autowired val repo: ClientRepository
+        val repo: ClientRepository
 ) {
     private val logger = KotlinLogging.logger {}
 
