@@ -34,6 +34,9 @@ class DateAdapter : XmlAdapter<String, Date>() {
 
 }
 
+//Constructors are used only for tests(Otherwise it is impossible to create objects to test xmlToClients)
+//Refer
+
 @XmlRootElement(name = "ФИО")
 @XmlAccessorType(XmlAccessType.FIELD)
 class FIO(

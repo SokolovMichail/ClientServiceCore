@@ -16,26 +16,6 @@ var DateParse = SimpleDateFormat("dd-MM-yyyy");
 
 class XMLtests
 {
-
-    fun compareClientsXML(expectedClient:ClientXML,client: ClientXML)
-    {
-        assertEquals(expectedClient.dr,client.dr)
-        assertEquals(client.fio?.name,expectedClient.fio?.name)
-        assertEquals(client.fio?.surname,expectedClient.fio?.surname)
-        assertEquals(client.fio?.secondName,expectedClient.fio?.secondName)
-    }
-
-    @Test
-    fun assertOKUnmarshallingSingle()
-    {
-        val okFilePath = "D:\\Центр-Инвест\\Для Тестирования\\testOK.xml"
-        val result = xmlToClients(okFilePath)
-        val expectedResult = mutableListOf<ClientXML>(ClientXML(
-                FIO("Акинфеев","Петр","Аркадьевич"), DateParse.parse("20-01-2019")))
-        compareClientsXML(expectedResult[0],result[0])
-        //println("Test OK")
-    }
-
     @Test
     fun assertOKUnmarshallingMultiple()
     {
@@ -52,7 +32,10 @@ class XMLtests
                         FIO("ГРОЗНЫЙ","ИВАН","ВАСИЛЬЕВИЧ"), DateParse.parse("13-06-2119")))
         for (i in 0..3)
         {
-            compareClientsXML(expectedResult[i],result[i])
+            assertEquals(result[i].dr,expectedResult[i].dr)
+            assertEquals(result[i].fio.name,expectedResult[i].fio.name)
+            assertEquals(result[i].fio.surname,expectedResult[i].fio.surname)
+            assertEquals(result[i].fio.second_name,expectedResult[i].fio.second_name)
         }
        // println("Test OK")
     }
