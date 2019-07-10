@@ -31,7 +31,7 @@ class XMLtests
         val okFilePath = "D:\\Центр-Инвест\\Для Тестирования\\testOK.xml"
         val result = xmlToClients(okFilePath)
         val expectedResult = mutableListOf<ClientXML>(ClientXML(
-                FIO("Акинфеев","Петр","Аркадьевич"), DateParse.parse("20-01-2019").toString()))
+                FIO("Акинфеев","Петр","Аркадьевич"), DateParse.parse("20-01-2019")))
         compareClientsXML(expectedResult[0],result[0])
         //println("Test OK")
     }
@@ -43,13 +43,13 @@ class XMLtests
         val result = xmlToClients(okFilePath)
         val expectedResult = mutableListOf<ClientXML>(
                 ClientXML(
-                        FIO("ИВАНОВ","ИВАН","ИВАНОВИЧ"), DateParse.parse("01-06-2016").toString()),
+                        FIO("ИВАНОВ","ИВАН","ИВАНОВИЧ"), DateParse.parse("01-06-2016")),
                 ClientXML(
-                        FIO("ПЕТРОВ","ПЕТР","ЯКОВЛЕВИЧ"), DateParse.parse("20-01-2019").toString()),
+                        FIO("ПЕТРОВ","ПЕТР","ЯКОВЛЕВИЧ"), DateParse.parse("20-01-2019")),
                 ClientXML(
-                        FIO("СИДОРОВ","АНТОН","ПЕТРОВИЧ"), DateParse.parse("06-06-2059").toString()),
+                        FIO("СИДОРОВ","АНТОН","ПЕТРОВИЧ"), DateParse.parse("06-06-2059")),
                 ClientXML(
-                        FIO("ГРОЗНЫЙ","ИВАН","ВАСИЛЬЕВИЧ"), DateParse.parse("13-06-2119").toString()))
+                        FIO("ГРОЗНЫЙ","ИВАН","ВАСИЛЬЕВИЧ"), DateParse.parse("13-06-2119")))
         for (i in 0..3)
         {
             compareClientsXML(expectedResult[i],result[i])

@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter
 import java.util.Date;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter
 
-var DateParse = SimpleDateFormat("dd-MM-yyyy");
+
 //Service adapter to read data from xml
 class DateAdapter : XmlAdapter<String, Date>() {
 
@@ -51,13 +51,10 @@ class FIO(
 class ClientXML(
         @field:XmlElement(name = "ФИО")
         val fio: FIO? = FIO(),
-        @field:XmlElement(name = "dr_dirty")
-        var dr_dirty: String?=null) {
-    val dr:Date
-    init {
-        dr = DateParse.parse(dr_dirty)
-    }
-
+        @field:XmlElement(name = "датаРождения")
+        @field:XmlJavaTypeAdapter(DateAdapter::class)
+        val dr:Date?=Date() )
+{
     fun transformToClient(): Client {
         val tmpSurname: String
         val tmpName: String
