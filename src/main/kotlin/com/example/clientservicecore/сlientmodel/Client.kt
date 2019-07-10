@@ -13,7 +13,7 @@ enum class Processing {
 class Client(
 
         @Id
-        @GeneratedValue
+        @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Int? = null,
         var surname: String = "Pass",
         var name: String = "Pass",
