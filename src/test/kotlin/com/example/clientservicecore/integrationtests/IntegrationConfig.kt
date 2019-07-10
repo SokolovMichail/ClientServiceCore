@@ -1,4 +1,4 @@
-package com.example.clientservicecore.IntegrationTests
+package com.example.clientservicecore.integrationtests
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource
 import org.springframework.beans.factory.annotation.Autowired

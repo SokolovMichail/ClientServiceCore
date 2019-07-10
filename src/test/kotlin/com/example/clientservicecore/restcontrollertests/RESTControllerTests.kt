@@ -1,4 +1,4 @@
-package com.example.clientservicecore.RESTControllerTests
+package com.example.clientservicecore.restcontrollertests
 
 import com.example.clientservicecore.clientrepository.ClientRepository
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
+import java.net.URI
 
 @MockBean
 val clientRepository:ClientRepository?=null
@@ -43,7 +44,7 @@ class RESTControllerIntegrationTest {
     @Test
     @Throws(Exception::class)
     fun getExistingClient() {
-        this.mockMvc?.perform(get("/clients/3"))?.andDo(print())?.andExpect(status().isOk())?.andExpect(
+        this.mockMvc?.perform(get(URI.create("/clients/find/ГРОЗНЫЙ")))?.andDo(print())?.andExpect(status().isOk())?.andExpect(
                 content().json("""{"surname":3,"surname":"ГРОЗНЫЙ","name":"ИВАН",
                     |"secondName":"ВАСИЛЬЕВИЧ","dr":"2119-06-12T21:00:00.000+0000",
                     |"account":"ERR_NO_ACC_REP","status":"PROCESSING_COMPLETE"}))""".trimMargin()))

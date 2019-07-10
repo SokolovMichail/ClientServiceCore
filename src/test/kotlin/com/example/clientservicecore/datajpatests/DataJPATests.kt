@@ -1,4 +1,4 @@
-package com.example.clientservicecore.DataJPATests
+package com.example.clientservicecore.datajpatests
 
 import com.example.clientservicecore.сlientmodel.Client
 import com.example.clientservicecore.сlientmodel.Processing

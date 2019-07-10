@@ -1,4 +1,4 @@
-package com.example.clientservicecore.IntegrationTests
+package com.example.clientservicecore.integrationtests
 
 import org.junit.Test
 import org.skyscreamer.jsonassert.JSONAssert

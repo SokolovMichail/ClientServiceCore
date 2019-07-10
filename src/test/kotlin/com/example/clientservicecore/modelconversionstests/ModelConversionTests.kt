@@ -1,9 +1,9 @@
-package com.example.clientservicecore.ModelConversionsTests
+package com.example.clientservicecore.modelconversionstests
 
 import com.example.clientservicecore.сlientmodel.Client
 import com.example.clientservicecore.xmlops.ClientXML
 import com.example.clientservicecore.xmlops.FIO
-import com.example.clientservicecore.XMLtests.DateParse
+import com.example.clientservicecore.xmltests.DateParse
 import org.junit.Test
 import kotlin.test.assertEquals
 

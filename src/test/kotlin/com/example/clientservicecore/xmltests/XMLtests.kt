@@ -1,4 +1,4 @@
-package com.example.clientservicecore.XMLtests
+package com.example.clientservicecore.xmltests
 
 import com.example.clientservicecore.xmlops.ClientXML
 import com.example.clientservicecore.xmlops.FIO
