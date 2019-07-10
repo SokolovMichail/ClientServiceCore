@@ -25,13 +25,4 @@ class Client(
         @field:Enumerated(EnumType.STRING)
         var status:Processing = Processing.AWAIT_PROCESSING)
 {
-
-   /* fun transformToClientXML(): ClientXML {
-        var C = ClientXML()
-        C.fio.name = this.name
-        C.fio.surname = this.surname
-        C.fio.secondName = this.secondName
-        C.dr = this.dr
-        return C
-    }*/
 }
