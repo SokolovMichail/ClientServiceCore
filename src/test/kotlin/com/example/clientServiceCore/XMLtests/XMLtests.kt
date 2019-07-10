@@ -33,9 +33,9 @@ class XMLtests
         for (i in 0..3)
         {
             assertEquals(result[i].dr,expectedResult[i].dr)
-            assertEquals(result[i].fio.name,expectedResult[i].fio.name)
-            assertEquals(result[i].fio.surname,expectedResult[i].fio.surname)
-            assertEquals(result[i].fio.second_name,expectedResult[i].fio.second_name)
+            assertEquals(result[i].fio?.name,expectedResult[i].fio?.name)
+            assertEquals(result[i].fio?.surname,expectedResult[i].fio?.surname)
+            assertEquals(result[i].fio?.secondName,expectedResult[i].fio?.secondName)
         }
        // println("Test OK")
     }
