@@ -1,4 +1,4 @@
-package com.example.clientservicecore.integrationtests
+package com.example.clientservicecore.systemtests
 //
 //import org.springframework.jdbc.datasource.DriverManagerDataSource
 //import org.springframework.beans.factory.annotation.Autowired
@@ -11,7 +11,7 @@ package com.example.clientservicecore.integrationtests
 //
 //
 //@Configuration
-//@PropertySource("testing.properties")
+//
 //@EnableTransactionManagement
 //class StudentJpaConfig {
 //
