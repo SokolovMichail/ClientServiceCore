@@ -5,7 +5,7 @@ import com.example.clientservicecore.clientrepository.ClientRepository
 import mu.KotlinLogging
 import org.springframework.web.bind.annotation.*
 
-internal class ClientNotFoundException(id: String?) : RuntimeException("Could not find employee " + id!!)
+internal class ClientNotFoundException(id: String?) : RuntimeException("Could not find client " + id!!)
 
 //A service class to implement remote deletion
 class SurnameGetter(var surname:String="")

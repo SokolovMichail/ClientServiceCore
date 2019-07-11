@@ -20,7 +20,6 @@ class StudentControllerTests {
     private val port: Int = 0
     internal var restTemplate = TestRestTemplate()
     internal var headers = HttpHeaders()
-    //TODO refactor to use a separate database
     @Test
     fun testGetClient() {
         val entity = HttpEntity<String>(null, headers)

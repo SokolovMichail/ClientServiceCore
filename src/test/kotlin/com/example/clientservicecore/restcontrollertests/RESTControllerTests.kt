@@ -4,6 +4,8 @@ import com.example.clientservicecore.clientrepository.ClientRepository
 import com.example.clientservicecore.restcontroller.RESTClientController
 import com.example.clientservicecore.сlientmodel.Client
 import com.example.clientservicecore.сlientmodel.Processing
+import mu.KotlinLogging
+import org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.any
 import org.junit.Before
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
@@ -24,9 +26,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
+import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,6 +43,7 @@ var DateParse = SimpleDateFormat("yyyy-MM-dd");
 @RunWith(SpringRunner::class)
 @WebMvcTest(RESTClientController::class)
 class RESTControllerIntegrationTest {
+    private val logger = KotlinLogging.logger {}
 
     @MockBean
     lateinit var clientRepository: ClientRepository
@@ -47,13 +52,13 @@ class RESTControllerIntegrationTest {
     lateinit var mockMvc: MockMvc
 
     @Test
-    fun getFirstPage() {
+    fun assetOKgetFirstPage() {
         this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
                 //?.andExpect(content().string(containsString("Hello Mock")));
     }
 
     @Test
-    fun getExistingClient() {
+    fun assertOKgetExistingClient() {
         Mockito.`when`(clientRepository.findClientBySurname("ГРОЗНЫЙ")).thenReturn(Optional.of(Client(3, "ГРОЗНЫЙ", "ИВАН", "ВАСИЛЬЕВИЧ",
                 DateParse.parse("2119-06-13"), "ERR_NO_ACC_REP", Processing.PROCESSING_COMPLETE)))
         this.mockMvc.perform(get(URI.create("/clients/find/ГРОЗНЫЙ"))).andDo(print()).andExpect(status().isOk()).andExpect(
@@ -65,7 +70,7 @@ class RESTControllerIntegrationTest {
     }
 
     @Test
-    fun getAllClients() {
+    fun assertOKgetAllClients() {
         Mockito.`when`(clientRepository.findAll()).thenReturn(mutableListOf(
                 Client(1, "ГРОЗНЫЙ", "ИВАН", "ВАСИЛЬЕВИЧ",
                         DateParse.parse("2119-06-13"), "ERR_NO_ACC_REP", Processing.PROCESSING_COMPLETE),
@@ -80,5 +85,46 @@ class RESTControllerIntegrationTest {
                     |"dr":"2059-06-05T21:00:00.000+0000","account":"ERR_NO_ACC_REP",
                     |"status":"PROCESSING_COMPLETE"}]""".trimMargin()))
     }
+
+    @Test
+    fun assertFailGetClient()
+    {
+        this.mockMvc.perform(get(URI.create("/clients/find/ГРОЗНЫЙ"))).andDo(print()).andExpect(status().isNotFound).andExpect(
+                content().string("Could not find client ГРОЗНЫЙ"))
+
+    }
+
+    @Test
+    fun assertOKAddClient()
+    {
+        //var performedAddition = false
+//         Mockito.`when`(clientRepository.save(Client(0, "ГРОЗНЫЙ", "ИВАН", "ВАСИЛЬЕВИЧ",
+//                 DateParse.parse("2119-06-13"), "ERR_NO_ACC_REP", Processing.PROCESSING_COMPLETE))).then{ performedAddition = true; logger.info { "OK" }  }      //var testAdditionClient = Client(1, "ГРОЗНЫЙ", "ИВАН", "ВАСИЛЬЕВИЧ",
+        //        DateParse.parse("2119-06-13"), "ERR_NO_ACC_REP", Processing.PROCESSING_COMPLETE)
+        this.mockMvc.perform(post(URI.create("/clients/add")).contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8").content(
+                """{"id":3,"surname":"ГРОЗНЫЙ","na":"ИВАН",
+                    |"sendName":"ВАСИЛЬЕВИЧ","dr":"2119-06-12T21:00:00.000+0000",
+                    |"account":"ERR_NO_ACC_REP","status":"PROCESSING_COMPLETE"}))""".trimMargin()
+        )).andExpect(status().isOk)
+//        assert(performedAddition)
+       // Mockito.`when`(clientRepository.save())
+    }
+
+    @Test
+    fun assertOKdeleteClient()
+    {
+        var performedDeletion = false
+        Mockito.`when`(clientRepository.deleteClientBySurname("ГРОЗНЫЙ")).then {performedDeletion = true;
+            logger.info { "OK" } }      //var testAdditionClient = Client(1, "ГРОЗНЫЙ", "ИВАН", "ВАСИЛЬЕВИЧ",
+        this.mockMvc.perform(post(URI.create("/clients/del")).contentType(MediaType.APPLICATION_JSON).content(
+                """{"surname":3,"surname":"ГРОЗНЫЙ","name":"ИВАН",
+                    |"secondName":"ВАСИЛЬЕВИЧ","dr":"2119-06-12T21:00:00.000+0000",
+                    |"account":"ERR_NO_ACC_REP","status":"PROCESSING_COMPLETE"}))""".trimMargin()
+        ))
+        assert(performedDeletion)
+
+        // Mockito.`when`(clientRepository.save())
+    }
+
 
 }
