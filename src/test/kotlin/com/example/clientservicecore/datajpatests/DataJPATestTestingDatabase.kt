@@ -18,8 +18,8 @@ import org.springframework.test.context.ActiveProfiles
 
 var DateParse = SimpleDateFormat("dd-MM-yyyy");
 @ActiveProfiles("test")
-@DataJpaTest
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@DataJpaTest
 @RunWith(SpringRunner::class)
 class ClientRepositoryIntegrationTest {
 
