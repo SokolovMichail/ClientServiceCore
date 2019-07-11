@@ -30,10 +30,10 @@ class ClientRepositoryIntegrationTest {
     lateinit var entityManager: TestEntityManager
 
     @Test
-    fun assertFindExistingEmployeeByid() {
+    fun assertFindExistingEmployeeBySurname() {
         val expectedClient = Client(3, "ГРОЗНЫЙ", "ИВАН", "ВАСИЛЬЕВИЧ",
                 DateParse.parse("2119-06-13"), "ERR_NO_ACC_REP", Processing.PROCESSING_COMPLETE)
-        val client = repo.findById(3).get()
+        val client = repo.findClientBySurname("ГРОЗНЫЙ").get()
         assertEquals(expectedClient.id, client.id)
         assertEquals(expectedClient.name, client.name)
         assertEquals(expectedClient.surname, client.surname)
@@ -43,8 +43,8 @@ class ClientRepositoryIntegrationTest {
     }
 
     @Test
-    fun assertFindNonExistentEmployeeByid() {
-        assert(!repo.findById(443).isPresent)
+    fun assertFindNonExistentEmployeeBySurname() {
+        assert(!repo.findClientBySurname("JKJK").isPresent)
 
     }
 
