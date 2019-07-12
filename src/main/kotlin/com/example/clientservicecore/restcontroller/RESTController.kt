@@ -1,20 +1,17 @@
 package com.example.clientservicecore.restcontroller
 
-import com.example.clientservicecore.сlientmodel.Client
 import com.example.clientservicecore.clientrepository.ClientRepository
 import com.example.clientservicecore.сlientmodel.ClientDTO
-import mu.KotlinLogging
-import org.springframework.web.bind.annotation.*
-import com.example.clientservicecore.сlientmodel.toListClient
 import com.example.clientservicecore.сlientmodel.toListClientDTO
+import mu.KotlinLogging
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.bind.annotation.*
 
 
 internal class ClientNotFoundException(id: String?) : RuntimeException("Could not find client " + id!!)
 
 //A service class to implement remote deletion
-class SurnameGetter(var surname:String="")
-{
+class SurnameGetter(var surname: String = "") {
 }
 
 @RestController
@@ -31,29 +28,18 @@ class RESTClientController(
 
 
     }
+
     @PostMapping("/add")
-    fun addSingleClient(@RequestBody clientDTO: ClientDTO)
-    {
-        try {
-            repo.save(clientDTO.toClient())
-            logger.info("Saved a new client")
-        }
-        catch (e:Exception)
-        {
-            logger.error(e.message)
-            throw e
-        }
+    fun addSingleClient(@RequestBody clientDTO: ClientDTO) {
+
+        repo.save(clientDTO.toClient())
+        logger.info("Saved a new client")
+
     }
 
-    @GetMapping("/{id}")
-    fun getSingleClient(@PathVariable id: Int):Client {
-        logger.info("Attempted to find element by id")
-        return repo.findById(id)
-                .orElseThrow { ClientNotFoundException(id.toString()) }
-    }
 
     @GetMapping("/find/{surname}")
-    fun getSingleClientBySurname(@PathVariable surname: String):ClientDTO {
+    fun getSingleClientBySurname(@PathVariable surname: String): ClientDTO {
         logger.info("Attempted to find element by surname")
         var tmp = repo.findClientBySurname(surname)
         if (tmp.isPresent)
@@ -63,8 +49,9 @@ class RESTClientController(
     }
 
     @PostMapping("/del")
-    fun delSingleClient(@RequestBody idg:SurnameGetter){
-        logger.info("Attempted Deletion of client by surname "+idg.surname)
+    @Transactional
+    fun delSingleClient(@RequestBody idg: SurnameGetter) {
+        logger.info("Attempted Deletion of client by surname " + idg.surname)
         repo.deleteClientBySurname(idg.surname)
     }
 

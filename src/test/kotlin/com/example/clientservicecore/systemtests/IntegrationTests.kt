@@ -2,45 +2,64 @@ package com.example.clientservicecore.systemtests
 
 import com.example.clientservicecore.clientrepository.ClientRepository
 import com.example.clientservicecore.restcontroller.SurnameGetter
+import com.example.clientservicecore.xmltests.DateParse
+import com.example.clientservicecore.сlientmodel.ClientDTO
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.skyscreamer.jsonassert.JSONAssert
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpEntity
-import org.springframework.http.HttpHeaders
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.web.server.LocalServerPort
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringRunner
-import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
-import org.springframework.boot.test.web.client.exchange
-import org.springframework.context.annotation.Profile
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.transaction.annotation.Transactional
+import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.web.client.RestTemplate
-import javax.persistence.EntityManager
-import javax.persistence.PersistenceContext
 
 
 @RunWith(SpringRunner::class)
 @ActiveProfiles("test")
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SystemTests {
 
     @LocalServerPort
     private val port: Int = 0
-    var restTemplate = TestRestTemplate()
+    var testrestTemplate = TestRestTemplate()
+    var restTemplate = RestTemplate()
     var headers = HttpHeaders()
+    var jsonHeaders = HttpHeaders()
+    @Autowired
+    lateinit var rabbitTemplate: RabbitTemplate
+    @Autowired
+    lateinit var repo:ClientRepository
+
+    @Test
+    fun contextLoads() {
+
+    }
+
+    @Test
+    fun rabbitLoadTest()
+    {
+        assert(rabbitTemplate != null)
+    }
+
+    @Test
+    fun repositoryLoadTest()
+    {
+        assert(repo != null)
+    }
 
 
     @Test
     fun assertOKGetClient() {
         val entity = HttpEntity<String>(null, headers)
-        val response = restTemplate.exchange(
+        val response = testrestTemplate.exchange(
                 createURLWithPort("clients/find/ГРОЗНЫЙ"), HttpMethod.GET, entity, String::class.java)
         val expected = """{"surname": "ГРОЗНЫЙ",
             "name": "ИВАН",
@@ -53,7 +72,7 @@ class SystemTests {
     @Test
     fun assertOKGetAllClients() {
         val entity = HttpEntity<String>(null, headers)
-        val response = restTemplate.exchange(
+        val response = testrestTemplate.exchange(
                 createURLWithPort("clients/listall"), HttpMethod.GET, entity, String::class.java)
         val expected = """[{"surname":"ИВАНОВ","name":"ИВАН","secondName":"ИВАНОВИЧ",
             |"dr":"2016-05-31T21:00:00.000+0000",
@@ -72,45 +91,42 @@ class SystemTests {
             |"account":"ERR_NO_ACC_REP"}]""".trimMargin()
         JSONAssert.assertEquals(expected, response.body, true)
     }
-//    //TODO
-//    @Test
-//    fun assertOKCreateClient()
-//    {
-//
-//    }
-//    //TODO
-//
-//    @Test
-//    fun assertOKDeleteClient()
-//    {
-//        headers.contentType = MediaType.APPLICATION_JSON_UTF8
-//        val entity = HttpEntity(SurnameGetter("Мышкин"),headers)
-//        val URL_SERVICE = "http://localhost:8080/clients/"
-//        val client = restTemplate.exchange(
-//                createURLWithPort("clients/del"),HttpMethod.POST,entity, SurnameGetter::class.java)
-//        println(client.statusCodeValue)
-//        //assert(client.statusCodeValue == 200)
-//    }
-//    @Test
-//    fun assertFailGetClient()
-//    {
-//        val entity = HttpEntity<String>(null, headers)
-//        val response = restTemplate.exchange(
-//                createURLWithPort("clients/find/5783490"), HttpMethod.GET, entity, String::class.java)
-//        print(response.statusCodeValue)
-//        assert(response.statusCodeValue == 404 )  }
-//    //TODO
-//    @Test
-//    fun assertFailCreateClient()
-//    {
-//
-//    }
-//    //TODO
-//    @Test
-//    fun assertFailDeleteClient()
-//    {
-//
-//    }
+    @Test
+    fun assertFailGetClient()
+    {
+        val entity = HttpEntity<String>(null, headers)
+        val response = testrestTemplate.exchange(
+                createURLWithPort("clients/find/5783490"), HttpMethod.GET, entity, String::class.java)
+        print(response.statusCodeValue)
+        assert(response.statusCodeValue == 404 )  }
+
+    @Test
+    fun assertOKCreateClient()
+    {
+        jsonHeaders.contentType = MediaType.APPLICATION_JSON_UTF8
+        var entity = HttpEntity<ClientDTO>(
+                ClientDTO("Фаров","Фарид",
+                        "Филимонович", DateParse.parse("01-06-2016")),jsonHeaders)
+        val response = restTemplate.exchange(
+                createURLWithPort("clients/add"), HttpMethod.POST, entity, String::class.java)
+        //print(response.statusCodeValue)
+        assert(response.statusCodeValue == 200 )  }
+
+    @Test
+    fun assertOKDeleteClient()
+    {
+
+        jsonHeaders.contentType = MediaType.APPLICATION_JSON_UTF8
+        var entity = HttpEntity<ClientDTO>(
+                ClientDTO("Каркаров","Фарид",
+                        "Филимонович", DateParse.parse("01-06-2016")),jsonHeaders)
+        val response = restTemplate.exchange(
+                createURLWithPort("clients/add"), HttpMethod.POST, entity, String::class.java)
+        val entityDelete = HttpEntity<SurnameGetter>(SurnameGetter("Каркаров"),jsonHeaders)
+        val responseDelete = restTemplate.exchange(
+                createURLWithPort("clients/del"), HttpMethod.POST, entityDelete, String::class.java)
+        assert(responseDelete.statusCodeValue == 200 )  }
+
 
     private fun createURLWithPort(uri: String): String {
         return "http://localhost:$port$uri"

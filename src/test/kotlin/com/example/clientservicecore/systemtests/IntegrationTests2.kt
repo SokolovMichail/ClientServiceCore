@@ -6,7 +6,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
@@ -34,9 +33,9 @@ class IntegrationTests2 {
     @Test
     fun assertOKAddClient() {
         this.mockMvc.perform(MockMvcRequestBuilders.post(URI.create("/clients/add")).contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8").content(
-                """{"id":3,"surname":"ГРОЗНЫЙ","na":"ИВАН",
+                """{"surname":"ГРОЗНЫЙ","name":"ИВАН",
                     |"sendName":"ВАСИЛЬЕВИЧ","dr":"2119-06-12T21:00:00.000+0000",
-                    |"account":"ERR_NO_ACC_REP","status":"PROCESSING_COMPLETE"}))""".trimMargin()
+                    |"account":"ERR_NO_ACC_REP"}))""".trimMargin()
         )).andExpect(MockMvcResultMatchers.status().isOk)
     }
 
