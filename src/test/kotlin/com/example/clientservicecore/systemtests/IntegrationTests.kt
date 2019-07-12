@@ -110,7 +110,13 @@ class SystemTests {
         val response = restTemplate.exchange(
                 createURLWithPort("clients/add"), HttpMethod.POST, entity, String::class.java)
         //print(response.statusCodeValue)
-        assert(response.statusCodeValue == 200 )  }
+        assert(response.statusCodeValue == 200 )
+        val entityDelete = HttpEntity<SurnameGetter>(SurnameGetter("Фаров"),jsonHeaders)
+        val responseDelete = restTemplate.exchange(
+                createURLWithPort("clients/del"), HttpMethod.POST, entityDelete, String::class.java)
+        assert(response.statusCodeValue == 200 )
+
+    }
 
     @Test
     fun assertOKDeleteClient()

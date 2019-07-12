@@ -1,18 +1,18 @@
 package com.example.clientservicecore.datajpatests
 
+import com.example.clientservicecore.clientrepository.ClientRepository
 import com.example.clientservicecore.сlientmodel.Client
 import com.example.clientservicecore.сlientmodel.Processing
-import com.example.clientservicecore.clientrepository.ClientRepository
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import java.text.SimpleDateFormat
-import kotlin.test.assertEquals
-import org.springframework.test.context.junit4.SpringRunner
-import org.junit.runner.RunWith
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.junit4.SpringRunner
+import java.text.SimpleDateFormat
+import kotlin.test.assertEquals
 
 
 
