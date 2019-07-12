@@ -30,11 +30,16 @@ class RESTClientController(
     }
 
     @PostMapping("/add")
-    fun addSingleClient(@RequestBody clientDTO: ClientDTO) {
-
-        repo.save(clientDTO.toClient())
-        logger.info("Saved a new client")
-
+    fun addSingleClient(@RequestBody clientDTO: ClientDTO)
+    {
+        if  (clientDTO.checkValidity()) {
+            repo.save(clientDTO.toClient())
+            logger.info("Saved a new client")
+        }
+        else
+        {
+            logger.error { "Client did not pass validity check" }
+        }
     }
 
 

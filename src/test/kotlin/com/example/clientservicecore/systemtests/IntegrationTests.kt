@@ -128,10 +128,32 @@ class SystemTests {
                         "Филимонович", DateParse.parse("01-06-2016")),jsonHeaders)
         val response = restTemplate.exchange(
                 createURLWithPort("clients/add"), HttpMethod.POST, entity, String::class.java)
+        assert(response.statusCodeValue == 200 )
         val entityDelete = HttpEntity<SurnameGetter>(SurnameGetter("Каркаров"),jsonHeaders)
         val responseDelete = restTemplate.exchange(
                 createURLWithPort("clients/del"), HttpMethod.POST, entityDelete, String::class.java)
-        assert(responseDelete.statusCodeValue == 200 )  }
+        assert(responseDelete.statusCodeValue == 200 )
+    }
+    @Test
+    fun assertFailCreateClient()
+    {
+        var entity = HttpEntity<ClientDTO>(
+                ClientDTO("","Фарид",
+                        "", DateParse.parse("01-06-2016")),jsonHeaders)
+        val response = restTemplate.exchange(
+                createURLWithPort("clients/add"), HttpMethod.POST, entity, String::class.java)
+        assert(response.statusCodeValue == 200 )
+        assert(!repo.findClientBySurname("").isPresent)
+    }
+
+    @Test
+    fun assertOKDeleteNonExistentClient()
+    {
+        val entityDelete = HttpEntity<SurnameGetter>(SurnameGetter("Каркаров"),jsonHeaders)
+        val responseDelete = restTemplate.exchange(
+                createURLWithPort("clients/del"), HttpMethod.POST, entityDelete, String::class.java)
+        assert(responseDelete.statusCodeValue == 200 )
+    }
 
 
     private fun createURLWithPort(uri: String): String {
