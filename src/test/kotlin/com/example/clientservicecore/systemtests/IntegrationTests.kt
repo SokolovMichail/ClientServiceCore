@@ -27,7 +27,7 @@ import javax.persistence.PersistenceContext
 
 @RunWith(SpringRunner::class)
 @ActiveProfiles("test")
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SystemTests {
 
@@ -37,44 +37,39 @@ class SystemTests {
     var headers = HttpHeaders()
 
 
-
     @Test
     fun assertOKGetClient() {
         val entity = HttpEntity<String>(null, headers)
         val response = restTemplate.exchange(
                 createURLWithPort("clients/find/ГРОЗНЫЙ"), HttpMethod.GET, entity, String::class.java)
-        val expected = "{\n" +
-                "  \"id\": 3,\n" +
-                "  \"surname\": \"ГРОЗНЫЙ\",\n" +
-                "  \"name\": \"ИВАН\",\n" +
-                "  \"secondName\": \"ВАСИЛЬЕВИЧ\",\n" +
-                "  \"dr\": \"2119-06-12T21:00:00.000+0000\",\n" +
-                "  \"account\": \"ERR_NO_ACC_REP\",\n" +
-                "  \"status\": \"PROCESSING_COMPLETE\"\n" +
-                "}"
+        val expected = """{"surname": "ГРОЗНЫЙ",
+            "name": "ИВАН",
+            "secondName": "ВАСИЛЬЕВИЧ",
+            "dr": "2119-06-12T21:00:00.000+0000",
+            "account": "ERR_NO_ACC_REP"}"""
         JSONAssert.assertEquals(expected, response.body, true)
     }
+
     @Test
-    fun assertOKGetAllClients(){
+    fun assertOKGetAllClients() {
         val entity = HttpEntity<String>(null, headers)
         val response = restTemplate.exchange(
                 createURLWithPort("clients/listall"), HttpMethod.GET, entity, String::class.java)
-        val expected = """[{"id":1,"surname":"ИВАНОВ","name":"ИВАН","secondName":"ИВАНОВИЧ",
+        val expected = """[{"surname":"ИВАНОВ","name":"ИВАН","secondName":"ИВАНОВИЧ",
             |"dr":"2016-05-31T21:00:00.000+0000",
-            |"account":"1234-5678-9012",
-            |"status":"PROCESSING_COMPLETE"},
-            |{"id":2,"surname":"СИДОРОВ","name":"АНТОН","secondName":"ПЕТРОВИЧ",
+            |"account":"1234-5678-9012"},
+            |{"surname":"СИДОРОВ","name":"АНТОН","secondName":"ПЕТРОВИЧ",
             |"dr":"2059-06-05T21:00:00.000+0000",
-            |"account":"ERR_NO_ACC_REP","status":"PROCESSING_COMPLETE"},
-            |{"id":3,"surname":"ГРОЗНЫЙ","name":"ИВАН","secondName":"ВАСИЛЬЕВИЧ",
+            |"account":"ERR_NO_ACC_REP"},
+            |{"surname":"ГРОЗНЫЙ","name":"ИВАН","secondName":"ВАСИЛЬЕВИЧ",
             |"dr":"2119-06-12T21:00:00.000+0000",
-            |"account":"ERR_NO_ACC_REP","status":"PROCESSING_COMPLETE"},
-            |{"id":4,"surname":"Лавандов","name":"Карим","secondName":"Мафусаилович",
+            |"account":"ERR_NO_ACC_REP"},
+            |{"surname":"Лавандов","name":"Карим","secondName":"Мафусаилович",
             |"dr":"1894-07-06T21:00:00.000+0000",
-            |"account":"ERR_NO_ACC_REP","status":"PROCESSING_COMPLETE"},
-            |{"id":5,"surname":"Мышкин","name":"Афанасий","secondName":"Лавинович",
+            |"account":"ERR_NO_ACC_REP"},
+            |{"surname":"Мышкин","name":"Афанасий","secondName":"Лавинович",
             |"dr":"1857-02-11T21:00:00.000+0000",
-            |"account":"ERR_NO_ACC_REP","status":"PROCESSING_COMPLETE"}]""".trimMargin()
+            |"account":"ERR_NO_ACC_REP"}]""".trimMargin()
         JSONAssert.assertEquals(expected, response.body, true)
     }
 //    //TODO

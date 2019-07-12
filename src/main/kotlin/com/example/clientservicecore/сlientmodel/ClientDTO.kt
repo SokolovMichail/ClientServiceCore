@@ -12,7 +12,8 @@ class ClientDTO(
 {
     fun toClient():Client
     {
-        return Client(surname = this.surname,name = this.name,secondName = this.secondName,account = this.account)
+        return Client(surname = this.surname,name = this.name,
+                secondName = this.secondName,account = this.account,dr = this.dr)
     }
 
 }

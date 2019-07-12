@@ -49,9 +49,9 @@ class RESTControllerTests {
         Mockito.`when`(clientRepository.findClientBySurname("ГРОЗНЫЙ")).thenReturn(Optional.of(Client(3, "ГРОЗНЫЙ", "ИВАН", "ВАСИЛЬЕВИЧ",
                 DateParse.parse("2119-06-13"), "ERR_NO_ACC_REP", Processing.PROCESSING_COMPLETE)))
         this.mockMvc.perform(get(URI.create("/clients/find/ГРОЗНЫЙ"))).andDo(print()).andExpect(status().isOk()).andExpect(
-                content().json("""{"surname":3,"surname":"ГРОЗНЫЙ","name":"ИВАН",
+                content().json("""{"surname":"ГРОЗНЫЙ","name":"ИВАН",
                     |"secondName":"ВАСИЛЬЕВИЧ","dr":"2119-06-12T21:00:00.000+0000",
-                    |"account":"ERR_NO_ACC_REP","status":"PROCESSING_COMPLETE"}))""".trimMargin()))
+                    |"account":"ERR_NO_ACC_REP"}))""".trimMargin()))
 
 
     }
@@ -65,12 +65,10 @@ class RESTControllerTests {
                         DateParse.parse("2059-06-6"), "ERR_NO_ACC_REP", Processing.PROCESSING_COMPLETE)
         ))
         this.mockMvc.perform(get("/clients/listall")).andDo(print()).andExpect(status().isOk()).andExpect(
-                content().json("""[{"id":1,"surname":"ГРОЗНЫЙ","name":"ИВАН","secondName":"ВАСИЛЬЕВИЧ",
-                    |"dr":"2119-06-12T21:00:00.000+0000","account":"ERR_NO_ACC_REP",
-                    |"status":"PROCESSING_COMPLETE"},
-                    |{"id":2,"surname":"СИДОРОВ","name":"АНТОН","secondName":"ПЕТРОВИЧ",
-                    |"dr":"2059-06-05T21:00:00.000+0000","account":"ERR_NO_ACC_REP",
-                    |"status":"PROCESSING_COMPLETE"}]""".trimMargin()))
+                content().json("""[{"surname":"ГРОЗНЫЙ","name":"ИВАН","secondName":"ВАСИЛЬЕВИЧ",
+                    |"dr":"2119-06-12T21:00:00.000+0000","account":"ERR_NO_ACC_REP"},
+                    |{"surname":"СИДОРОВ","name":"АНТОН","secondName":"ПЕТРОВИЧ",
+                    |"dr":"2059-06-05T21:00:00.000+0000","account":"ERR_NO_ACC_REP"}]""".trimMargin()))
     }
 
     @Test
@@ -85,9 +83,9 @@ class RESTControllerTests {
     fun assertOKAddClient()
     {
         this.mockMvc.perform(post(URI.create("/clients/add")).contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8").content(
-                """{"id":3,"surname":"ГРОЗНЫЙ","na":"ИВАН",
+                """{"surname":"ГРОЗНЫЙ","na":"ИВАН",
                     |"sendName":"ВАСИЛЬЕВИЧ","dr":"2119-06-12T21:00:00.000+0000",
-                    |"account":"ERR_NO_ACC_REP","status":"PROCESSING_COMPLETE"}))""".trimMargin()
+                    |"account":"ERR_NO_ACC_REP"}))""".trimMargin()
         )).andExpect(status().isOk)
     }
 
@@ -98,9 +96,9 @@ class RESTControllerTests {
         Mockito.`when`(clientRepository.deleteClientBySurname("ГРОЗНЫЙ")).then {performedDeletion = true;
             logger.info { "OK" } }
         this.mockMvc.perform(post(URI.create("/clients/del")).contentType(MediaType.APPLICATION_JSON).content(
-                """{"surname":3,"surname":"ГРОЗНЫЙ","name":"ИВАН",
+                """{"surname":"ГРОЗНЫЙ","name":"ИВАН",
                     |"secondName":"ВАСИЛЬЕВИЧ","dr":"2119-06-12T21:00:00.000+0000",
-                    |"account":"ERR_NO_ACC_REP","status":"PROCESSING_COMPLETE"}))""".trimMargin()
+                    |"account":"ERR_NO_ACC_REP"}))""".trimMargin()
         ))
         assert(performedDeletion)
     }

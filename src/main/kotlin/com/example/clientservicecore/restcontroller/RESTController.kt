@@ -63,7 +63,6 @@ class RESTClientController(
     }
 
     @PostMapping("/del")
-    @Transactional
     fun delSingleClient(@RequestBody idg:SurnameGetter){
         logger.info("Attempted Deletion of client by surname "+idg.surname)
         repo.deleteClientBySurname(idg.surname)
