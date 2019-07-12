@@ -23,4 +23,18 @@ class Client(
         @field:Enumerated(EnumType.STRING)
         var status:Processing = Processing.AWAIT_PROCESSING)
 {
+    fun toClientDto():ClientDTO
+    {
+        return ClientDTO(this.surname,this.name,this.secondName,this.dr,this.account)
+    }
+}
+
+fun toListClientDTO(clients:MutableList<Client>):MutableList<ClientDTO>
+{
+    var res = mutableListOf<ClientDTO>()
+    clients.forEach()
+    {
+        res.add(it.toClientDto())
+    }
+    return res
 }

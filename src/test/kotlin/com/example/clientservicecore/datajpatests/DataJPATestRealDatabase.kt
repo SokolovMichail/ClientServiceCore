@@ -24,7 +24,7 @@ class ClientRepositoryRealIntegrationTest {
 
 
     @Test
-    fun assertFindNonExistentEmployeeByid() {
+    fun assertFailClientByid() {
         assert(!repo.findById(0).isPresent)
 
     }

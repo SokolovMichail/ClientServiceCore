@@ -2,8 +2,13 @@ package com.example.clientservicecore.restcontroller
 
 import com.example.clientservicecore.сlientmodel.Client
 import com.example.clientservicecore.clientrepository.ClientRepository
+import com.example.clientservicecore.сlientmodel.ClientDTO
 import mu.KotlinLogging
 import org.springframework.web.bind.annotation.*
+import com.example.clientservicecore.сlientmodel.toListClient
+import com.example.clientservicecore.сlientmodel.toListClientDTO
+import org.springframework.transaction.annotation.Transactional
+
 
 internal class ClientNotFoundException(id: String?) : RuntimeException("Could not find client " + id!!)
 
@@ -20,15 +25,17 @@ class RESTClientController(
     private val logger = KotlinLogging.logger {}
 
     @GetMapping("/listall")
-    fun getAllClients(): List<Client> {
+    fun getAllClients(): List<ClientDTO> {
         logger.info("Requested all clients")
-        return repo.findAll()
+        return toListClientDTO(repo.findAll())
+
+
     }
     @PostMapping("/add")
-    fun addSingleClient(@RequestBody client: Client)
+    fun addSingleClient(@RequestBody clientDTO: ClientDTO)
     {
         try {
-            repo.save(client)
+            repo.save(clientDTO.toClient())
             logger.info("Saved a new client")
         }
         catch (e:Exception)
@@ -46,15 +53,19 @@ class RESTClientController(
     }
 
     @GetMapping("/find/{surname}")
-    fun getSingleClientBySurname(@PathVariable surname: String):Client {
+    fun getSingleClientBySurname(@PathVariable surname: String):ClientDTO {
         logger.info("Attempted to find element by surname")
-        return repo.findClientBySurname(surname)
-                .orElseThrow { ClientNotFoundException(surname) }
+        var tmp = repo.findClientBySurname(surname)
+        if (tmp.isPresent)
+            return tmp.get().toClientDto()
+        else
+            throw ClientNotFoundException(surname)
     }
 
     @PostMapping("/del")
+    @Transactional
     fun delSingleClient(@RequestBody idg:SurnameGetter){
-        logger.info("Attempted Deletion")
+        logger.info("Attempted Deletion of client by surname "+idg.surname)
         repo.deleteClientBySurname(idg.surname)
     }
 
