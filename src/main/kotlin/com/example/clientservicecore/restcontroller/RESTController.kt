@@ -32,11 +32,11 @@ class RESTClientController(
 
     }
 
-    fun sendEmailNotification(clientDTO: ClientDTO):String
+    fun sendEmailNotification(clientDTO: ClientDTO,destAdress:String = "sokolovm88@yandex.ru"):String
     {
         // Create a Simple MailMessage.
         val message = SimpleMailMessage()
-        message.setTo("sokolovm88@yandex.ru")
+        message.setTo(destAdress)
         message.setSubject("New VIP")
         message.setText("New vip has joined! This is ${clientDTO.secondName},${clientDTO.name}")
         // Send Message!

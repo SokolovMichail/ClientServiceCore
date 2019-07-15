@@ -1,7 +1,7 @@
 package com.example.clientservicecore.messagingconnectservice
 
-import com.example.clientservicecore.сlientmodel.Processing
 import com.example.clientservicecore.clientrepository.ClientRepository
+import com.example.clientservicecore.сlientmodel.Processing
 import com.google.gson.Gson
 import mu.KotlinLogging
 import org.springframework.amqp.rabbit.annotation.RabbitHandler
@@ -29,7 +29,7 @@ class CoreServerSideReceiver(@Autowired val repo: ClientRepository) {
                 client.status = Processing.PROCESSING_COMPLETE
                 repo.save(client)
                 logger.info {
-                    "Successfully saved new account setting to client with surname ${client.id}"
+                    "Successfully saved new account setting to client with surname ${client.surname}"
                 }
             } else {
                 logger.error {"Account information conflict"}
