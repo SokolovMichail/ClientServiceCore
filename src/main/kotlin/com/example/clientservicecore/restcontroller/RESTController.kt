@@ -33,6 +33,7 @@ class RESTClientController(
     fun addSingleClient(@RequestBody clientDTO: ClientDTO)
     {
         if  (clientDTO.checkValidity()) {
+
             repo.save(clientDTO.toClient())
             logger.info("Saved a new client")
         }

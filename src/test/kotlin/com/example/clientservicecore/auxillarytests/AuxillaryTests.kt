@@ -4,23 +4,25 @@ import com.example.clientservicecore.xmltests.DateParse
 import com.example.clientservicecore.сlientmodel.ClientDTO
 import org.junit.Test
 
-class AuxillaryTests
-{
+class AuxillaryTests {
     @Test
-    fun assertOKValidityCheck()
-    {
-        var client = ClientDTO("Каркаров","Фарид",
-                "Филимонович", DateParse.parse("01-06-2016"))
+    fun assertOKValidityCheck() {
+        var client = ClientDTO(
+                "Каркаров",
+                "Фарид",
+                "Филимонович",
+                DateParse.parse("01-06-2016")
+        )
         assert(client.checkValidity())
     }
+
     @Test
-    fun assertFailValidityCheck()
-    {
-        var client = ClientDTO("","Фарид",
+    fun assertFailValidityCheck() {
+        var client = ClientDTO("", "Фарид",
                 "Филимонович", DateParse.parse("01-06-2016"))
-        var client2 = ClientDTO("Hjv","Фарид",
-                "Филимонович", DateParse.parse("01-06-2016"),account = "30-4")
-        assert(!((client.checkValidity())or (client2.checkValidity())))
+        var client2 = ClientDTO("Hjv", "Фарид",
+                "Филимонович", DateParse.parse("01-06-2016"), account = "30-4")
+        assert(!((client.checkValidity()) or (client2.checkValidity())))
 
     }
 }

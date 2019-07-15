@@ -41,7 +41,7 @@ class XMLtests
     fun assertBadUnmarshal()
     {
         val badFilePath = "D:\\Центр-Инвест\\Для Тестирования\\testError.xml"
-        val exception = assertFailsWith<javax.xml.bind.UnmarshalException> { xmlToClients(badFilePath) }
+        assertFailsWith<javax.xml.bind.UnmarshalException> { xmlToClients(badFilePath) }
     }
 
 

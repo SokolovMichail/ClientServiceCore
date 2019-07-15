@@ -9,7 +9,8 @@ class ClientDTO(
         var name: String = "Pass",
         var secondName: String = "Pass",
         var dr: Date = Date(),
-        var account: String = ERR_NO_ACC_DET)
+        var account: String = ERR_NO_ACC_DET,
+        var vip:Boolean = false)
 {
     fun toClient():Client
     {

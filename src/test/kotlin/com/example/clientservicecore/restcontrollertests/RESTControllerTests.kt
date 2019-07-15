@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 var DateParse = SimpleDateFormat("yyyy-MM-dd");
+
 //@RunWith(MockitoJUnitRunner::class)
 //@ActiveProfiles("test")
 //@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
@@ -72,16 +73,17 @@ class RESTControllerTests {
     }
 
     @Test
-    fun assertFailGetClient()
-    {
-        this.mockMvc.perform(get(URI.create("/clients/find/ГРОЗНЫЙ"))).andDo(print()).andExpect(status().isNotFound).andExpect(
-                content().string("Could not find client ГРОЗНЫЙ"))
+    fun assertFailGetClient() {
+        this.mockMvc.perform(get(URI.create("/clients/find/ГРОЗНЫЙ")))
+                .andDo(print())
+                .andExpect(status().isNotFound)
+                .andExpect(
+                        content().string("Could not find client ГРОЗНЫЙ"))
 
     }
 
     @Test
-    fun assertOKAddClient()
-    {
+    fun assertOKAddClient() {
         this.mockMvc.perform(post(URI.create("/clients/add")).contentType(MediaType.APPLICATION_JSON).characterEncoding("UTF-8").content(
                 """{"surname":"ГРОЗНЫЙ","na":"ИВАН",
                     |"sendName":"ВАСИЛЬЕВИЧ","dr":"2119-06-12T21:00:00.000+0000",
@@ -90,11 +92,12 @@ class RESTControllerTests {
     }
 
     @Test
-    fun assertOKDeleteClient()
-    {
+    fun assertOKDeleteClient() {
         var performedDeletion = false
-        Mockito.`when`(clientRepository.deleteClientBySurname("ГРОЗНЫЙ")).then {performedDeletion = true;
-            logger.info { "OK" } }
+        Mockito.`when`(clientRepository.deleteClientBySurname("ГРОЗНЫЙ")).then {
+            performedDeletion = true;
+            logger.info { "OK" }
+        }
         this.mockMvc.perform(post(URI.create("/clients/del")).contentType(MediaType.APPLICATION_JSON).content(
                 """{"surname":"ГРОЗНЫЙ","name":"ИВАН",
                     |"secondName":"ВАСИЛЬЕВИЧ","dr":"2119-06-12T21:00:00.000+0000",

@@ -1,7 +1,6 @@
 package com.example.clientservicecore.xmlops
 
-//TODO Remove all auxillary constructors and convert everything to nullable
-//All the auxillary constructors are used in tests only!
+
 import com.example.clientservicecore.сlientmodel.Client
 import javax.xml.bind.annotation.XmlAccessType
 import javax.xml.bind.annotation.XmlAccessorType
