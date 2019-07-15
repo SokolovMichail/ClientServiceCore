@@ -15,7 +15,7 @@ class ClientDTO(
     fun toClient():Client
     {
         return Client(surname = this.surname,name = this.name,
-                secondName = this.secondName,account = this.account,dr = this.dr)
+                secondName = this.secondName,account = this.account,dr = this.dr,vip = this.vip)
     }
 
     fun checkValidity():Boolean {

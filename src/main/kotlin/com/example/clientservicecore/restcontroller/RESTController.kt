@@ -4,6 +4,8 @@ import com.example.clientservicecore.clientrepository.ClientRepository
 import com.example.clientservicecore.сlientmodel.ClientDTO
 import com.example.clientservicecore.сlientmodel.toListClientDTO
 import mu.KotlinLogging
+import org.springframework.mail.SimpleMailMessage
+import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 
@@ -17,7 +19,8 @@ class SurnameGetter(var surname: String = "") {
 @RestController
 @RequestMapping("/clients")
 class RESTClientController(
-        val repo: ClientRepository
+        val repo: ClientRepository,
+        var mailSender: JavaMailSender
 ) {
     private val logger = KotlinLogging.logger {}
 
@@ -29,11 +32,25 @@ class RESTClientController(
 
     }
 
+    fun sendEmailNotification(clientDTO: ClientDTO):String
+    {
+        // Create a Simple MailMessage.
+        val message = SimpleMailMessage()
+        message.setTo("sokolovm88@yandex.ru")
+        message.setSubject("New VIP")
+        message.setText("New vip has joined! This is ${clientDTO.secondName},${clientDTO.name}")
+        // Send Message!
+        this.mailSender.send(message)
+        return "Mail sent"
+    }
+
     @PostMapping("/add")
     fun addSingleClient(@RequestBody clientDTO: ClientDTO)
     {
         if  (clientDTO.checkValidity()) {
-
+            if (clientDTO.vip){
+                sendEmailNotification(clientDTO)
+            }
             repo.save(clientDTO.toClient())
             logger.info("Saved a new client")
         }

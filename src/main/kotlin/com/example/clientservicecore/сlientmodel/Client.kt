@@ -21,11 +21,12 @@ class Client(
         var dr: Date = Date(),
         var account: String = ERR_NO_ACC_DET,
         @field:Enumerated(EnumType.STRING)
-        var status:Processing = Processing.AWAIT_PROCESSING)
+        var status:Processing = Processing.AWAIT_PROCESSING,
+        var vip:Boolean = false)
 {
     fun toClientDto():ClientDTO
     {
-        return ClientDTO(this.surname,this.name,this.secondName,this.dr,this.account)
+        return ClientDTO(this.surname,this.name,this.secondName,this.dr,this.account,vip = this.vip)
     }
 }
 

@@ -11,5 +11,6 @@ class ClientServiceCore
 
 fun main(args: Array<String>) {
     runApplication<ClientServiceCore>(*args)
+
 }
 
