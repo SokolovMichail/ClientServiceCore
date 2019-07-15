@@ -60,5 +60,4 @@ class RESTClientController(
         logger.info("Attempted Deletion of client by surname " + idg.surname)
         repo.deleteClientBySurname(idg.surname)
     }
-
 }

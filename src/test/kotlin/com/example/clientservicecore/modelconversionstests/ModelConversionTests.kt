@@ -23,8 +23,10 @@ class ModelConversionTests {
     @Test
     fun assertClientDTOtoClientTransformation()
     {
-        val clientConverted = ClientDTO("ИВАНОВ","ИВАН","ИВАНОВИЧ",dr = DateParse.parse("01-06-2016")).toClient()
-        val expectedClient = Client(0, "ИВАНОВ", "ИВАН", "ИВАНОВИЧ", DateParse.parse("01-06-2016"))
+        val clientConverted = ClientDTO("ИВАНОВ","ИВАН",
+                "ИВАНОВИЧ",dr = DateParse.parse("01-06-2016")).toClient()
+        val expectedClient = Client(0, "ИВАНОВ", "ИВАН",
+                "ИВАНОВИЧ", DateParse.parse("01-06-2016"))
         assertEquals(expectedClient.account, "ERR_NO_ACC_DET")
         assertEquals(expectedClient.name, clientConverted.name)
         assertEquals(expectedClient.surname, clientConverted.surname)

@@ -29,13 +29,3 @@ class ClientDTO(
 
 
 }
-
-fun toListClient(clients:MutableList<ClientDTO>):MutableList<Client>
-{
-    var res = mutableListOf<Client>()
-    clients.forEach()
-    {
-        res.add(it.toClient())
-    }
-    return res
-}
