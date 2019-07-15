@@ -29,7 +29,7 @@ val sourceTestDirErr = FileSystems.getDefault().getPath(SOURCE_DIR + "\\" +"test
 val errorDirFail  = FileSystems.getDefault().getPath(ERR_DIR + "\\" +"testError.xml" )
 val sourceDirErrNotXml = FileSystems.getDefault().getPath(SOURCE_ERR_FILE_NOT_XML)
 val sourceTestDirErrNotXML = FileSystems.getDefault().getPath(SOURCE_DIR + "\\" +"111.jpg" )
-val errorDirFailNOTXML  = FileSystems.getDefault().getPath(ERR_DIR + "\\" +"111.jpg" )
+val errorDirFailNotXml  = FileSystems.getDefault().getPath(ERR_DIR + "\\" +"111.jpg" )
 @RunWith(SpringRunner::class)
 class FileInteractionTests
 {
@@ -71,10 +71,10 @@ class FileInteractionTests
     fun assertFailNotXMLFileInteractionTests()
     {
         cleanAllDirectories()
-        Files.copy(sourceDirOK, sourceTestDirErrNotXML)
+        Files.copy(sourceDirErrNotXml, sourceTestDirErrNotXML)
         Mockito.`when`(repo.save(any(Client::class.java))).then {  Client() }
         DirectoryFileHandler(repo).processFile(File(SOURCE_DIR,"111.jpg"))
-        assert(Files.exists(errorDirFailNOTXML))
+        assert(Files.exists(errorDirFailNotXml))
         cleanAllDirectories()
     }
 }
