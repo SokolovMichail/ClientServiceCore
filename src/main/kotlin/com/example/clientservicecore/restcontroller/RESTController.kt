@@ -1,5 +1,6 @@
 package com.example.clientservicecore.restcontroller
 
+import com.example.clientservicecore.clientprocessors.AbstractProcessor
 import com.example.clientservicecore.clientrepository.ClientRepository
 import com.example.clientservicecore.сlientmodel.ClientDTO
 import com.example.clientservicecore.сlientmodel.toListClientDTO
@@ -20,8 +21,10 @@ class SurnameGetter(var surname: String = "") {
 @RequestMapping("/clients")
 class RESTClientController(
         val repo: ClientRepository,
-        var mailSender: JavaMailSender
+        var mailSender: JavaMailSender,
+        val chain:List<AbstractProcessor>
 ) {
+
     private val logger = KotlinLogging.logger {}
 
     @GetMapping("/listall")
@@ -34,12 +37,10 @@ class RESTClientController(
 
     fun sendEmailNotification(clientDTO: ClientDTO,destAdress:String = "sokolovm88@yandex.ru"):String
     {
-        // Create a Simple MailMessage.
         val message = SimpleMailMessage()
         message.setTo(destAdress)
         message.setSubject("New VIP")
-        message.setText("New vip has joined! This is ${clientDTO.secondName},${clientDTO.name}")
-        // Send Message!
+        message.setText("New vip has joined! This is ${clientDTO.surname},${clientDTO.name}")
         this.mailSender.send(message)
         return "Mail sent"
     }
@@ -60,13 +61,17 @@ class RESTClientController(
         }
     }
 
-
     @GetMapping("/find/{surname}")
     fun getSingleClientBySurname(@PathVariable surname: String): ClientDTO {
         logger.info("Attempted to find element by surname")
         var tmp = repo.findClientBySurname(surname)
-        if (tmp.isPresent)
-            return tmp.get().toClientDto()
+        if (tmp.isPresent){
+            val clientDto_rec = tmp.get().toClientDto()
+            chain.forEach()
+            {
+                it.process(clientDto_rec)
+            }
+            return clientDto_rec}
         else
             throw ClientNotFoundException(surname)
     }
