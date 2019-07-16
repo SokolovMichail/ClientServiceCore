@@ -1,6 +1,6 @@
 package com.example.clientservicecore.restcontroller
 
-import com.example.clientservicecore.clientprocessors.ProcessorSequence
+import com.example.clientservicecore.clientprocessors.AbstractProcessor
 import com.example.clientservicecore.clientrepository.ClientRepository
 import com.example.clientservicecore.сlientmodel.ClientDTO
 import com.example.clientservicecore.сlientmodel.toListClientDTO
@@ -22,9 +22,8 @@ class SurnameGetter(var surname: String = "") {
 class RESTClientController(
         val repo: ClientRepository,
         var mailSender: JavaMailSender,
-        val processorSequence:ProcessorSequence
+        val chain:List<AbstractProcessor>
 ) {
-
 
     private val logger = KotlinLogging.logger {}
 
@@ -67,8 +66,12 @@ class RESTClientController(
         logger.info("Attempted to find element by surname")
         var tmp = repo.findClientBySurname(surname)
         if (tmp.isPresent){
-            processorSequence.start(tmp.get().toClientDto())
-            return tmp.get().toClientDto()}
+            val clientDto_rec = tmp.get().toClientDto()
+            chain.forEach()
+            {
+                it.process(clientDto_rec)
+            }
+            return clientDto_rec}
         else
             throw ClientNotFoundException(surname)
     }

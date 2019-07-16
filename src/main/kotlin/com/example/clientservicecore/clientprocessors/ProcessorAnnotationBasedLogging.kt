@@ -5,10 +5,16 @@ import org.springframework.stereotype.Component
 
 //Just a placeholder process
 @Component
-class ProcessorAnnotationBasedLogging()
+class ProcessorAnnotationBasedLogging():AbstractProcessor
 {
+    override val s:String = "Annotation"
     @MyLoggableAnnotation
-    fun process(clientDTO: ClientDTO) {
-        println("Processor with annotation based logging is doing something with client ${clientDTO.surname}")
+    override fun process(clientDTO: ClientDTO) {
+        println("Processor with $s based logging is doing something with client ${clientDTO.surname}")
     }
+
+
 }
+
+
+
